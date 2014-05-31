@@ -1,4 +1,4 @@
-import from myhdl *
+from myhdl import *
 
 def ROM(dout, addr, CONTENT):
     

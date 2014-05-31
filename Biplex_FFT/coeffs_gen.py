@@ -1,4 +1,4 @@
-import from myhdl *
+from myhdl import *
 import ROM
 import concat_signed
 import numpy as np
@@ -9,7 +9,7 @@ def coeff_gen(syncIn, Out,clkIn,CONTENT,FFTSize,FFTStage):
     re = Signal(intbv(0, min=-2**(DATA_WIDTH - 1), max=(2**(DATA_WIDTH-1 ))))
     im = Signal(intbv(0, min=-2**(DATA_WIDTH - 1), max=(2**(DATA_WIDTH-1 ))))
 	
-	count_out = Signal(intbv()[FFTSize:])
+    count_out = Signal(intbv()[FFTSize:])
     updown2 = 1
     counter_1 = counter_d.counter_d(count_out, clkIn, 1, syncIn, updown2,1, 0, 2**FFTStage)
     slice_1 = slice.slice(dout = w1, clk = clkIn, slice_mode = 1, SLICE_WIDTH = FFTStage, din = count_out)

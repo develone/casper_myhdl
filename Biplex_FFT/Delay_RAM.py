@@ -1,9 +1,9 @@
 def Delay_lat(dout,latency,clk,din): 
-	""" Delay Block using RAM
-	din - data to be delayed
-	latency - delay value
-	dout - output
-	"""
+    """ Delay Block using RAM
+    din - data to be delayed
+    latency - delay value
+    dout - output
+    """
     count_delay = Signal(intbv(0,min=0, max = latency+1))
 
     mem  =  [Signal(intbv(min = -2*2**(len(din)-1),max = 2*2**(len(din)-1)))  for  i  in  range(latency)]

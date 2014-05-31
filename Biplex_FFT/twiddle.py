@@ -1,7 +1,7 @@
 from myhdl import *
 import math
 import numpy as np
-import signed_multiplier
+#import signed_multiplier
 import mux_2_1
 #import concat_signed
 import signed_adder_subtractor
@@ -17,9 +17,9 @@ DATA_WIDTH = 18
 
 def twiddle_0(a_re,a_im,bw_re,bw_im,sync_out,clk,sync,a,b,Coeffs,FFTSize,FFTStage):
     
-	""" Twiddle block for FFT Stage  = 0
-	Twiddle Coeffs = 0
-	"""
+    """ Twiddle block for FFT Stage  = 0
+    Twiddle Coeffs = 0
+    """
 	#slice(dout, clk, slice_mode,SLICE_WIDTH, din)
     slice_a_re = slice.slice(dout = a_re, clk = clk, slice_mode = 0,SLICE_WIDTH = DATA_WIDTH,din = a)
     slice_a_im = slice.slice(dout = a_im, clk =clk,slice_mode = 1,SLICE_WIDTH = DATA_WIDTH, din = a)
@@ -36,8 +36,8 @@ def twiddle_0(a_re,a_im,bw_re,bw_im,sync_out,clk,sync,a,b,Coeffs,FFTSize,FFTStag
 
 def twiddle_1(a_re,a_im,bw_re,bw_im,sync_out,clk,sync,a,b,Coeffs,FFTSize,FFTStage):
     
-	""" Twiddle Block for FFT Stage = 1
-	"""
+    """ Twiddle Block for FFT Stage = 1
+    """
     a_re1 = Signal(intbv(0, min=-2**(DATA_WIDTH - 1), max=(2**(DATA_WIDTH-1 ))))
     a_im1 = Signal(intbv(0, min=-2**(DATA_WIDTH - 1), max=(2**(DATA_WIDTH-1 ))))
     
@@ -115,7 +115,7 @@ def twiddlea(a_re,a_im,bw_re,bw_im,sync_out,clk,sync,a,b,Coeffs,FFTSize,FFTStage
     
     bw_re1 = Signal(intbv(0, min=-2**(DATA_WIDTH - 1), max=(2**(DATA_WIDTH -1))))
     bw_im1 = Signal(intbv(0, min=-2**(DATA_WIDTH - 1), max=(2**(DATA_WIDTH -1))))
-    mult_0 = signed_multiplier.complex_multiplier_IO_reg(bw_re,bw_im,clk,ena = 1,b_re1,b_im1,w_re,w_im,DATA_WIDTH)
+    #mult_0 = signed_multiplier.complex_multiplier_IO_reg(bw_re,bw_im,clk,ena = 1,b_re1,b_im1,w_re,w_im,DATA_WIDTH)
     
 
     return delay_a, slice_a_re, slice_a_im, delay_b, slice_b_re, slice_b_im, delay_sync,  slice_coeff_gen_1, slice_coeff_gen_2, mult_0, coeff_gen_1,

@@ -1,6 +1,6 @@
 from myhdl import *
 import butterfly
-import sync_delay
+#import sync_delay
 import Delay
 import slice_m
 import slice_mod

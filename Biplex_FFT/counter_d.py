@@ -1,4 +1,4 @@
-def counter_d(count_out, clk, ena, rst, updown ,step ,MIN_COUNT = 0,MAX_COUNT ):
+def counter_d(count_out, clk, ena, rst, updown ,step ,MIN_COUNT ,MAX_COUNT ):
     
     
     #limit = Signal(intbv()[(MAX_COUNT):MIN_COUNT])

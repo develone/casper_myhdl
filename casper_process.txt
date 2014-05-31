@@ -1,0 +1,47 @@
+casper_myhdl consists of following python files:
+Delay.py
+Delay_RAM.py
+ROM.py
+arith_shift.py
+biplex_fft.py
+bit_reverse.py
+butterfly.py
+coeffs_gen.py
+complex_multiplier.py
+concat_signed.py
+convert_of.py
+counter_d.py
+fft_stage.py
+mux_2_1.py
+signed_adder_subtractor.py
+slice.py
+slice_m.py
+slice_mod.py
+twiddle.py
+
+I created a script test_casper to check which files would work without errors.
+test_casper
+python Delay.py
+python Delay_RAM.py
+python ROM.py
+python arith_shift.py
+python biplex_fft.py
+python bit_reverse.py
+python butterfly.py
+python coeffs_gen.py
+python complex_multiplier.py
+python concat_signed.py
+python convert_of.py
+python counter_d.py
+python fft_stage.py
+python mux_2_1.py
+python signed_adder_subtractor.py
+python slice.py
+python slice_m.py
+python slice_mod.py
+python twiddle.py
+
+./test_casper 
+  File "convert_of.py", line 18
+    stage_of_0 = slice_mod(dout_0, clk, slice_mode = 2,offset = 0, SLICE_WIDTH = len(din), din)
+SyntaxError: non-keyword arg after keyword arg
