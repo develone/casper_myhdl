@@ -14,16 +14,25 @@ def convert_of(dout,of,clk,din,mode):
     dout_0,dout_1,dout_2,dout_3 = [Signal(bool()) for i in range(4)]
     dout_00,dout_11,dout_22,dout_33 = [Signal(bool()) for i in range(4)]
     nand_0, nand_1, of_0 = [Signal(bool()) for i in range(3)]
-	
-    stage_of_0 = slice_mod(dout_0, clk, slice_mode ,offset , SLICE_WIDTH , din)
+    slice_mode = 2
+    offset = 0
+    stage_of_0 = slice_mod(dout_0, clk, slice_mode,offset , SLICE_WIDTH , din)
     
+    slice_mode = 2
+    offset = 1
     
     stage_of_1 = slice_mod(dout_1, clk, slice_mode , offset ,SLICE_WIDTH , din)
     
     
+    slice_mode = 2
+    offset = 2
+    SLICE_WIDTH = len(din)
     stage_of_2 = slice_mod(dout_2, clk, slice_mode , offset ,SLICE_WIDTH , din)
     
     
+    slice_mode = 2
+    offset = 3
+    SLICE_WIDTH = len(din)
     stage_of_3 = slice_mod(dout_3, clk, slice_mode ,offset ,SLICE_WIDTH , din)
     """@always(din)
     def quantization_logic():
