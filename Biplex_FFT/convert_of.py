@@ -16,13 +16,13 @@ def convert_of(dout,of,clk,din,mode):
     nand_0, nand_1, of_0 = [Signal(bool()) for i in range(3)]
     slice_mode = 2
     offset = 0
+    SLICE_WIDTH = len(din)
     stage_of_0 = slice_mod(dout_0, clk, slice_mode,offset , SLICE_WIDTH , din)
     
     slice_mode = 2
     offset = 1
-    
+    SLICE_WIDTH = len(din)
     stage_of_1 = slice_mod(dout_1, clk, slice_mode , offset ,SLICE_WIDTH , din)
-    
     
     slice_mode = 2
     offset = 2
