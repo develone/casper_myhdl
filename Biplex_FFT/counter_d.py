@@ -52,10 +52,9 @@ def test_bench():
         ena = 1
         rst = 1
         updown = 1
-        cnt  = 0
-        count_out = 0
+        cnt = Signal(intbv(0)[16:])
         step = 1
-        counter_inst = counter_d(count_out, clk, ena, rst, MAX_COUNT = 65536, updown = 1, step = 1, MIN_COUNT = 0 )
+        counter_inst = counter_d(cnt, clk, ena, rst, MAX_COUNT = 65536, updown = 1, step = 1, MIN_COUNT = 0 )
         clkdriver_inst = ClkDriver(clk)
         #tb = traceSignals(test_bench)
         sim = Simulation(clkdriver_inst, counter_inst)
