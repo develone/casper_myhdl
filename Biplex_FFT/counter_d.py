@@ -1,4 +1,9 @@
 from myhdl import *
+#BASED on a DATA_WIDTH of 18
+#2**18 equals 262144
+#using a res of 1e-5
+#requires 35 bits
+DATA_WIDTH = 262144
 def ClkDriver(clk):
         halfPeriod = delay(10)
         @always(halfPeriod)
@@ -37,9 +42,9 @@ def counter_d(cnt, clk, ena, rst, updown = 1, step = 1, MIN_COUNT = 0, MAX_COUNT
                     cnt.next = cnt - step
         cnt.next = cnt   
     return counter_logic
-MAX_COUNT = Signal(intbv(65536)[16:])
-MIN_COUNT = Signal(intbv(0)[16:])
-cnt = Signal(intbv(0)[16:])
+MAX_COUNT = Signal(fixbv(0, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5))
+MIN_COUNT = Signal(fixbv(0, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5)) 
+cnt = Signal(fixbv(0, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5))
 updown = Signal(bool())
 ena = Signal(bool())
 rst = Signal(bool())
@@ -52,7 +57,7 @@ def test_bench():
         ena = 1
         rst = 1
         updown = 1
-        cnt = Signal(intbv(0)[16:])
+        cnt = Signal(fixbv(0, min = -262144, max = 262144, res= 1e-5))
         step = 1
         counter_inst = counter_d(cnt, clk, ena, rst, MAX_COUNT = 65536, updown = 1, step = 1, MIN_COUNT = 0 )
         clkdriver_inst = ClkDriver(clk)
