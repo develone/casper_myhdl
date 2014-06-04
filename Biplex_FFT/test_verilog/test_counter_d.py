@@ -21,7 +21,7 @@ def _prep_cosim(args, **sigs):
     """ prepare the cosimulation environment
     """
     # compile the verilog files with the verilog simulator
-    files = ['./counter_d.v',
+    files = ['../counter_d.v',
              './tb_counter_d.v']
 
     print("compiling ...")
