@@ -10,6 +10,10 @@ reg [35:0] MIN_COUNT;
 reg [35:0] MAX_COUNT;
 
 initial begin
+    $dumpfile("vcd/counter_d.vcd");
+    $dumpvars(0, tb_counter_d);
+end
+initial begin
     $from_myhdl(
         clk,
         ena,
