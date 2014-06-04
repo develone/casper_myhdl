@@ -43,9 +43,9 @@ def test_counter_d(args):
     MAX_COUNT = Signal(fixbv(1230, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5))
     MIN_COUNT = Signal(fixbv(10, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5)) 
     cnt = Signal(fixbv(0, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5))
-    updown = Signal(bool(0))
-    ena = Signal(bool(1))
-    rst = Signal(bool(0))
+    updown = ResetSignal(0, active=0, async=True) 
+    ena = ResetSignal(0, active=0, async=True) 
+    rst = ResetSignal(0, active=0, async=True) 
     clk = Signal(bool(0))
     step = Signal(intbv(1)[9:])
     
@@ -58,34 +58,38 @@ def test_counter_d(args):
     
     @instance
     def tbstim():
-#        ena = False
-        rst = False 
-        updown = False
         yield delay(33)
-        rst = True 
+        yield delay(33)
+#updown lo ena lo rst lo
+        updown.next = ena.active
+        ena.next = ena.active
+        rst.next = rst.active
         yield clk.negedge
-        ena = True 
-        yield clk.posedge
-        rst = 0 
 
-        for ii in range(12):
-            ena = True
-            rst = True 
-            print("%8d: cnt = %2d updown = %2d step = %2d ena = %2d rst = %2d" % \
-                  (now(), cnt,updown,step,ena,rst))
+        for ii in range(5):
+            print("%8d: cnt = %2d updown = %2d step = %2d ena = %2d rst = %2d MIN_COUNT = %4x MAX_COUNT = %4x" % \
+                  (now(), cnt,updown,step,ena,rst,MIN_COUNT,MAX_COUNT))
             yield clk.posedge
-        for ii in range(12):
-            ena = True
-            rst = True
-            updown = True
-            print("%8d: cnt = %2d updown = %2d step = %2d ena = %2d rst = %2d" % \
-                  (now(), cnt,updown,step,ena,rst))
+#updown hi ena hi rst hi
+        updown.next = updown.async
+        ena.next = ena.async
+        rst.next = rst.async
+        for ii in range(10):
+            print("%8d: cnt = %2d updown = %2d step = %2d ena = %2d rst = %2d MIN_COUNT = %4x MAX_COUNT = %4x" % \
+                  (now(), cnt,updown,step,ena,rst,MIN_COUNT,MAX_COUNT))
             yield clk.posedge
-        for ii in range(12):
-            ena = True
-            rst = False
-            print("%8d: cnt = %2d updown = %2d step = %2d ena = %2d rst = %2d" % \
-                  (now(), cnt,updown,step,ena,rst))
+#updown hi ena hi rst lo
+        rst.next = rst.active
+        for ii in range(10):
+            print("%8d: cnt = %2d updown = %2d step = %2d ena = %2d rst = %2d MIN_COUNT = %4x MAX_COUNT = %4x" % \
+                  (now(), cnt,updown,step,ena,rst,MIN_COUNT,MAX_COUNT))
+            yield clk.posedge
+#updown lo ena hi rst lo
+        updown.next = updown.active
+        rst.next = rst.active
+        for ii in range(10):
+            print("%8d: cnt = %2d updown = %2d step = %2d ena = %2d rst = %2d MIN_COUNT = %4x MAX_COUNT = %4x" % \
+                  (now(), cnt,updown,step,ena,rst,MIN_COUNT,MAX_COUNT))
             yield clk.posedge
 
         raise StopSimulation

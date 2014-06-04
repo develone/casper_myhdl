@@ -50,7 +50,7 @@ ena = Signal(bool())
 rst = Signal(bool())
 clk = Signal(bool())
 step = Signal(intbv(1)[9:])
-toVerilog(counter_d, cnt, clk, ena, rst, MAX_COUNT, updown, step, MIN_COUNT)
+toVerilog(counter_d, cnt, clk, ena, rst, updown, step, MIN_COUNT, MAX_COUNT)
 
 def test_bench():
         clk = Signal(0)
