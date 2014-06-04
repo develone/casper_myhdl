@@ -40,13 +40,13 @@ def test_counter_d(args):
     """
     """
     DATA_WIDTH = 262144
-    MAX_COUNT = Signal(fixbv(0, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5))
-    MIN_COUNT = Signal(fixbv(0, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5)) 
+    MAX_COUNT = Signal(fixbv(1230, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5))
+    MIN_COUNT = Signal(fixbv(10, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5)) 
     cnt = Signal(fixbv(0, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5))
-    updown = Signal(bool())
-    ena = Signal(bool())
-    rst = Signal(bool())
-    clk = Signal(bool())
+    updown = Signal(bool(0))
+    ena = Signal(bool(1))
+    rst = Signal(bool(0))
+    clk = Signal(bool(0))
     step = Signal(intbv(1)[9:])
     
     tbdut = _prep_cosim(args, cnt=cnt, clk=clk, ena=ena, rst=rst, updown=updown, step=step, MAX_COUNT=MAX_COUNT, MIN_COUNT=MIN_COUNT)
@@ -58,15 +58,34 @@ def test_counter_d(args):
     
     @instance
     def tbstim():
-        rst = False
+#        ena = False
+        rst = False 
+        updown = False
         yield delay(33)
+        rst = True 
         yield clk.negedge
-        rst = not rst
+        ena = True 
         yield clk.posedge
+        rst = 0 
 
-        for ii in range(1280):
-            print("%8d: mb %2d " % \
-                  (now(), cnt,))
+        for ii in range(12):
+            ena = True
+            rst = True 
+            print("%8d: cnt = %2d updown = %2d step = %2d ena = %2d rst = %2d" % \
+                  (now(), cnt,updown,step,ena,rst))
+            yield clk.posedge
+        for ii in range(12):
+            ena = True
+            rst = True
+            updown = True
+            print("%8d: cnt = %2d updown = %2d step = %2d ena = %2d rst = %2d" % \
+                  (now(), cnt,updown,step,ena,rst))
+            yield clk.posedge
+        for ii in range(12):
+            ena = True
+            rst = False
+            print("%8d: cnt = %2d updown = %2d step = %2d ena = %2d rst = %2d" % \
+                  (now(), cnt,updown,step,ena,rst))
             yield clk.posedge
 
         raise StopSimulation
