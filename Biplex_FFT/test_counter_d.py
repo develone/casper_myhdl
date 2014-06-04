@@ -21,17 +21,18 @@ def _prep_cosim(args, **sigs):
     """ prepare the cosimulation environment
     """
     # compile the verilog files with the verilog simulator
-    files = ['counter_d.v',
-             '.tb_counter_d.v']
+    files = ['./counter_d.v',
+             './tb_counter_d.v']
 
     print("compiling ...")
-    cmd = "iverilog -o testcounter_d %s " % (" ".join(files))
+    cmd = "iverilog -o test_counter_d %s " % (" ".join(files))
+
     print("  *%s" %  (cmd))
     os.system(cmd)
 
     # get the handle to the
     print("cosimulation setup ...")
-    cmd = "vvp -m ./myhdl.vpi wprcnt"
+    cmd = "vvp -m ./myhdl.vpi test_counter_d"
     return Cosimulation(cmd, **sigs)
 
 
