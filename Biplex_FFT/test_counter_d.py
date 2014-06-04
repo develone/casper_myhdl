@@ -1,9 +1,8 @@
-
-# Need to verify each design is correct, it is easiest 
+# Need to verify each design is correct, it is easiest
 # to verify each of the converted files (Verilog).  By
 # verifying the final result, the design, functionality,
 # methodology, etc are all verified.
-# 
+#
 # Using Python testbenches because Python is a very flexible
 # easy language (author knows well).  No need for complicated
 # compile (builds) etc.
@@ -22,13 +21,11 @@ def _prep_cosim(args, **sigs):
     """ prepare the cosimulation environment
     """
     # compile the verilog files with the verilog simulator
-    files = ['../myhdl/mm_cnt.v',
-             '../bsv/mkCnt.v',
-             '../chisel/generated/mc_cnt.v',
-             './tb_wprcnt.v',]
+    files = ['counter_d.v',
+             '.tb_counter_d.v']
 
     print("compiling ...")
-    cmd = "iverilog -o wprcnt %s " % (" ".join(files))
+    cmd = "iverilog -o testcounter_d %s " % (" ".join(files))
     print("  *%s" %  (cmd))
     os.system(cmd)
 
@@ -38,33 +35,33 @@ def _prep_cosim(args, **sigs):
     return Cosimulation(cmd, **sigs)
 
 
-def test_wprcnt(args):
+def test_counter_d(args):
     """
     """
-    clock = Signal(bool(0))
+    clk = Signal(bool(0))
     reset = ResetSignal(0, active=0, async=True)
     outb,outc,outm = [Signal(intbv(0, min=0, max=32))
                       for _ in range(3)]
 
-    tbdut =  _prep_cosim(args, clock=clock, reset=reset,
+    tbdut =  _prep_cosim(args, clk=clk, reset=reset,
                          outb=outb, outc=outc, outm=outm)
 
     @always(delay(3))
     def tbclk():
-        clock.next = not clock
+        clk.next = not clk
     
     @instance
     def tbstim():
         reset.next = reset.active
         yield delay(33)
-        yield clock.negedge
+        yield clk.negedge
         reset.next = not reset.active
-        yield clock.posedge
+        yield clk.posedge
 
         for ii in range(128):
             print("%8d:  mb %2d,  mc %2d,  mm %2d" % \
                   (now(), outb, outc, outm))
-            yield clock.posedge
+            yield clk.posedge
 
         raise StopSimulation
 
@@ -73,4 +70,4 @@ def test_wprcnt(args):
 
 
 if __name__ == '__main__':
-    test_wprcnt(Namespace())
+    test_counter_d(Namespace())
