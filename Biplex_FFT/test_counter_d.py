@@ -39,13 +39,18 @@ def _prep_cosim(args, **sigs):
 def test_counter_d(args):
     """
     """
-    clk = Signal(bool(0))
-    reset = ResetSignal(0, active=0, async=True)
-    outb,outc,outm = [Signal(intbv(0, min=0, max=32))
-                      for _ in range(3)]
-
-    tbdut =  _prep_cosim(args, clk=clk, reset=reset,
-                         outb=outb, outc=outc, outm=outm)
+    DATA_WIDTH = 262144
+    MAX_COUNT = Signal(fixbv(0, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5))
+    MIN_COUNT = Signal(fixbv(0, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5)) 
+    cnt = Signal(fixbv(0, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5))
+    updown = Signal(bool())
+    ena = Signal(bool())
+    rst = Signal(bool())
+    clk = Signal(bool())
+    step = Signal(intbv(1)[9:])
+    
+    tbdut = _prep_cosim(args, cnt=cnt, clk=clk, ena=ena, rst=rst, updown=updown, step=step, MAX_COUNT=MAX_COUNT, MIN_COUNT=MIN_COUNT)
+                         
 
     @always(delay(3))
     def tbclk():
@@ -53,15 +58,15 @@ def test_counter_d(args):
     
     @instance
     def tbstim():
-        reset.next = reset.active
+        rst = False
         yield delay(33)
         yield clk.negedge
-        reset.next = not reset.active
+        rst = not rst
         yield clk.posedge
 
-        for ii in range(128):
-            print("%8d:  mb %2d,  mc %2d,  mm %2d" % \
-                  (now(), outb, outc, outm))
+        for ii in range(1280):
+            print("%8d: mb %2d " % \
+                  (now(), cnt,))
             yield clk.posedge
 
         raise StopSimulation
