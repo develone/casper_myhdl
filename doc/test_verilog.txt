@@ -1,0 +1,10 @@
+The following files are required:
+	counter_d.v
+	tb_counter_d.v
+	test_counter_d.py
+	myhdl.vpi
+Execute python test_counter_d.py will generate the following file
+	test_counter_d
+In addition the file counter_d.vcd will
+An example png file is found in doc folder 
+	GTKWave060414.png
