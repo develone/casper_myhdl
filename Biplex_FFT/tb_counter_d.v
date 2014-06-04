@@ -1,14 +1,12 @@
-`timescale 1ns/10ps
-
 module tb_counter_d;
 
 wire [35:0] cnt;
 reg clk;
 reg ena;
 reg rst;
-reg [35:0] updown;
-reg step;
-reg [8:0] MIN_COUNT;
+reg updown;
+reg [8:0] step;
+reg [35:0] MIN_COUNT;
 reg [35:0] MAX_COUNT;
 
 initial begin
