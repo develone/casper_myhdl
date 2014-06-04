@@ -29,14 +29,14 @@ initial begin
 end
 
 counter_d dut(
-    cnt,
-    clk,
-    ena,
-    rst,
-    updown,
-    step,
-    MIN_COUNT,
-    MAX_COUNT
+    .cnt(ctn),
+    .clk(clk),
+    .ena(ena),
+    .rst(rst),
+    .updown(updown),
+    .step(step),
+    .MIN_COUNT(MIN_COUNT),
+    .MAX_COUNT(MAX_COUNT)
 );
 
 endmodule
