@@ -39,10 +39,10 @@ def _prep_cosim(args, **sigs):
 def test_counter_d(args):
     """
     """
-    DATA_WIDTH = 32768
+    DATA_WIDTH = 262144
     MAX_COUNT = Signal(fixbv(1230, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5))
-    MIN_COUNT = Signal(fixbv(10, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5)) 
-    cnt = Signal(fixbv(8, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5)) 
+    MIN_COUNT = Signal(fixbv(1, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5)) 
+    cnt = Signal(fixbv(0, min = -DATA_WIDTH, max = DATA_WIDTH, res= 1e-5)) 
     updown = ResetSignal(0, active=0, async=True) 
     ena = ResetSignal(0, active=0, async=True) 
     rst = ResetSignal(0, active=0, async=True) 
@@ -74,21 +74,17 @@ def test_counter_d(args):
         updown.next = updown.async
         ena.next = ena.async
         rst.next = rst.async
-        cnt.next = cnt
         for ii in range(2):
             print("%8d: cnt = %9x updown = %2d step = %2d ena = %2d rst = %2d MIN_COUNT = %4x MAX_COUNT = %4x" % \
                   (now(), cnt,updown,step,ena,rst,MIN_COUNT,MAX_COUNT))
             yield clk.posedge
 #updown hi ena hi rst lo
         rst.next = rst.active
-        cnt.next = cnt
         for ii in range(5):
             print("%8d: cnt = %9x updown = %2d step = %2d ena = %2d rst = %2d MIN_COUNT = %4x MAX_COUNT = %4x" % \
                   (now(), cnt,updown,step,ena,rst,MIN_COUNT,MAX_COUNT))
             yield clk.posedge
 #updown lo ena hi rst lo
-        cnt.next = cnt
-        #cnt.next = MIN_COUNT
         updown.next = updown.active
         rst.next = rst.active
         for ii in range(10):
@@ -98,7 +94,6 @@ def test_counter_d(args):
 #updown hi ena hi rst lo
         updown.next = updown.async
         rst.next = rst.active
-        cnt.next = cnt
         for ii in range(10):
             print("%8d: cnt = %9x updown = %2d step = %2d ena = %2d rst = %2d MIN_COUNT = %4x MAX_COUNT = %4x" % \
                   (now(), cnt,updown,step,ena,rst,MIN_COUNT,MAX_COUNT))
